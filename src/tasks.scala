@@ -1086,10 +1086,11 @@ object Tasks {
                    , dexInputs
                    , dexMaxHeap
                    , dexCoreLibrary
+                   , additionalDexParameters
                    , libraryProject
                    , binPath
                    , streams) map {
-    case (bldr, (incr,inputs), xmx, cl, lib, bin, s) =>
+    case (bldr, (incr,inputs), xmx, cl, adp, lib, bin, s) =>
     val options = new DexOptions {
       def isCoreLibrary = cl
       def getIncremental = incr
@@ -1101,7 +1102,7 @@ object Tasks {
     s.log.info("Generating dex, incremental=" + incr)
     s.log.debug("Dex inputs: " + inputs)
     bldr.convertByteCode(Seq.empty[File] ++
-      inputs filter (_.isFile), Seq.empty[File], bin, options, Nil, true)
+      inputs filter (_.isFile), Seq.empty[File], bin, options, adp, true)
     bin
   }
 

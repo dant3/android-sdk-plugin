@@ -157,6 +157,8 @@ object Keys {
    "Maximum heapsize for dex, default 1024m")
   val dexCoreLibrary = SettingKey[Boolean]("dex-core-library",
    "core-library flag for dex, default false")
+  val additionalDexParameters = SettingKey[List[String]]("additional-dex-parameters",
+    "additional parameters for dex, default is empty")
   val versionName = SettingKey[Option[String]]("version-name",
     "application version name")
   val versionCode = SettingKey[Option[Int]]("version-code",

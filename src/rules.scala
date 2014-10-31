@@ -235,6 +235,7 @@ object Plugin extends sbt.Plugin {
     dex                     <<= dexTaskDef,
     dexMaxHeap               := "1024m",
     dexCoreLibrary           := false,
+    additionalDexParameters  := Nil,
     platformJars            <<= platform map { p =>
       (p.getPath(IAndroidTarget.ANDROID_JAR),
       (Option(p.getOptionalLibraries) map(_ map(_.getJarPath))).getOrElse(
