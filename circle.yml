@@ -1,0 +1,26 @@
+machine:
+  java:
+    version: oraclejdk8
+  environment:
+    SBT_VERSION: 0.13.8
+    SBT_OPTS: "-Xms512M -Xmx1024M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"
+dependencies:
+  cache_directories:
+    - "~/.sbt"
+    - "~.ivy2"
+  pre:
+    - emulator -avd circleci-android22 -no-audio -no-window:
+        background: true
+        parallel: true
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-22.0.1"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.1"
+    - echo y | android update sdk --no-ui --all --filter "platform-tools"
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "extra"
+    - curl -o sbt-launcher.sh https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt
+    - chmod a+x ./sbt-launcher.sh
+    - circle-android wait-for-boot
+test:
+  override:
+    - ./sbt-launcher.sh compile scripted
